@@ -18,3 +18,9 @@
     margin-left: 19px;
     font-weight: 800;
 }
+
+@media screen and (max-width: 500px) {
+    .WelcomeName {
+        display: none;
+    }
+}

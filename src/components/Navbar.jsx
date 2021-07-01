@@ -13,7 +13,7 @@ const Navbar = (props) => {
           <span className="brand-logo left">Courier</span>
           <ul className="right ulN">
             <li>
-              <span>{props.name}</span>
+              <span className="WelcomeName">{props.name}</span>
             </li>
             <li>
               <button
