@@ -1,10 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 export const useFetchContent = () => {
 
     const [packageC, setPackageC] = useState([])
     const [email, setemail] = useState('')
+
     const getContent = async() => {
         let route = `https://courierdemo.azurewebsites.net/api/packages/getPending?username=${email}`;
         const options = {
@@ -34,11 +35,11 @@ export const useFetchContent = () => {
 
         console.log(email)
         getContent()
-    }, [email]);
+    }, []);
 
 
 
 
-    return [packageC, ];
+    return [packageC];
 
 }

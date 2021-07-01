@@ -3,8 +3,6 @@ import CardsU from "./CardsUI";
 import "./Cards.css";
 import { useFetchContent } from "../hooks/useFetchContent";
 
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
 const Cards = () => {
   const [packageC] = useFetchContent();
 

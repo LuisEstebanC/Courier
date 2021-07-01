@@ -7,14 +7,14 @@ const Navbar = () => {
     window.location.href = "./";
   };
   return (
-    <nav style={{ backgroundColor: "#1952D4" }}>
+    <nav className="navbar">
       <div className="nav-wrapper">
         <span className="brand-logo">Courier</span>
-        <ul id="" className="right ">
+        <ul className="right ulN">
           <li>
             <button
-              onClick={handleLogout}
-              className="waves-effect waves-light btn"
+              onClick={() => handleLogout()}
+              className="waves-effect waves-light btn logout"
             >
               Logout
             </button>
