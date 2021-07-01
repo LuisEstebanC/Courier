@@ -1,5 +1,9 @@
 .ulN {
-    margin-right: 4%;
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-gap: 23px;
+    list-style: none;
+    text-align: center;
 }
 
 .logout {
@@ -8,4 +12,9 @@
 
 .navbar {
     background-color: rgb(156, 26, 26);
+}
+
+.brand-logo {
+    margin-left: 19px;
+    font-weight: 800;
 }

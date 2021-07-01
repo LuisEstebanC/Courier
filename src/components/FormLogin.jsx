@@ -3,19 +3,29 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "universal-cookie";
 const FormLogin = () => {
+  const retryTime = 3000;
+
   const cookies = new Cookies();
   const baseUrl = "https://courierdemo.azurewebsites.net/api/membership/login";
-
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-  const [contador, SetContador] = useState(0);
+  const { email, password } = data;
+  const [contador, SetContador] = useState(
+    parseInt(localStorage.getItem("tryCount") ?? 0)
+  );
   const [disableBotton, setDisableBotton] = useState(false);
-
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { email, password } = data;
+  let pattern = new RegExp(/[~`!#$%^&*+=\-[\]\\';,/{}|\\":<>?]/);
+
+  const setPersistantTryCount = (value) => {
+    localStorage.setItem("tryCount", value);
+    localStorage.setItem("lastTry", Date.now());
+
+    SetContador(value);
+  };
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -36,38 +46,79 @@ const FormLogin = () => {
   };
 
   const handleLogin = async () => {
-    await axios
-      .post(baseUrl, postData, axiosConfig)
-      .then((res) => {
-        return res.data;
-      })
-      .then((response) => {
-        if (response.success) {
-          cookies.set("email", email, { path: "/" });
-          cookies.set("Name", response.responseObject.fullName, { path: "/" });
-          console.log(response.responseObject.fullName + email);
-          window.location.href = "./Home";
-          setErrorMessage("");
-        } else {
-          console.log("no hay nadie");
-          setErrorMessage("Email or password invalid");
-          if (contador === 3) {
-            setDisableBotton(true);
-          }
-          SetContador(contador + 1);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const formIsValid = validateForm();
+    if (!formIsValid) return;
+
+    try {
+      const response = await axios
+        .post(baseUrl, postData, axiosConfig)
+        .then((res) => {
+          return res.data;
+        });
+
+      if (response.success) loginSuccess(response.responseObject);
+      else loginFail();
+    } catch (err) {
+      loginFail();
+    }
+  };
+
+  const validateForm = () => {
+    if (pattern.test(email) || pattern.test(password)) {
+      setErrorMessage("Only use letters and numbers ");
+      return false;
+    }
+
+    return true;
+  };
+
+  const loginSuccess = (result) => {
+    setErrorMessage("");
+    setPersistantTryCount(0);
+
+    cookies.set("email", email, { path: "/" });
+    cookies.set("Name", result.fullName, { path: "/" });
+
+    window.location.href = "./Home";
+  };
+
+  const loginFail = () => {
+    setErrorMessage("Email or password invalid");
+    updateTryCount();
+  };
+
+  const updateTryCount = () => {
+    setPersistantTryCount(contador + 1);
+    if (contador > 2) {
+      disableLoginButton(retryTime);
+    }
+  };
+
+  const disableLoginButton = (time) => {
+    setDisableBotton(true);
+    setTimeout(() => {
+      setDisableBotton(false);
+    }, time);
+  };
+
+  const handleTimeDiff = () => {
+    if (contador > 2) {
+      const lastTry = parseInt(localStorage.getItem("lastTry"));
+      const timediff = Date.now() - lastTry;
+
+      if (timediff < retryTime && !disableBotton) {
+        disableLoginButton(timediff);
+      }
+    }
   };
 
   useEffect(() => {
     if (cookies.get("email")) {
       window.location.href = "./Home";
-      console.log(cookies.get("email"));
     }
+    handleTimeDiff();
   });
+
   return (
     <>
       <form className="formD" onSubmit={handleSubmit}>

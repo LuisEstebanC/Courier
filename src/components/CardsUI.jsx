@@ -3,7 +3,7 @@ import React from "react";
 const CardsUI = (props) => {
   return (
     <>
-      <div className="card">
+      <div className="card z-depth-2">
         <div className="titleC">
           <span>{props.description}</span>
         </div>

@@ -19,7 +19,7 @@ const Cards = () => {
               courier={item.courier}
               courierTracking={item.courierTracking}
               internalTracking={item.internalTracking}
-            />{" "}
+            />
           </div>
         );
       })}
