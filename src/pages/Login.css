@@ -1,0 +1,64 @@
+body {
+    background-color: #dadcd5;
+}
+
+.logo1 {
+    margin-left: 20px;
+    font-size: 28px
+}
+
+.logo2 {
+    font-size: 26px;
+}
+
+.loginh4 {
+    margin-top: 30px;
+}
+
+.divcardline {
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 35%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.btlg1 {
+    width: 100%;
+}
+
+.btlg2 {
+    width: 100%;
+    margin-top: 15px;
+}
+
+.mgrem {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.divlogin {
+    margin-top: 30px;
+}
+
+.loginD {
+    height: 350px;
+    max-width: 400px;
+    min-width: 350px;
+    ;
+}
+
+.formD {
+    margin-top: 10%;
+}
+
+.divbt {
+    margin-top: 10px;
+}
+
+.googleButton {
+    text-align: -webkit-center;
+}
+
+.divF {
+    margin: auto;
+}
